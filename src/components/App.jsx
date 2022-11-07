@@ -15,7 +15,7 @@ export class App extends React.Component {
   render() {
     return (
       <>
-        <Searchbar />
+        <Searchbar/>
         <ImageGallery />
         <ImageGalleryItem />
         <Loader />
