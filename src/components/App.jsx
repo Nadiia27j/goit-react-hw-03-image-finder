@@ -12,11 +12,11 @@ import Searchbar from './Searchbar';
 export class App extends React.Component {
   state = {
     pictures: [],
-    // query: '',
-    // page: 1,
-    // perPage: 12,
-    // showModal: false,
-    // status: 'idle',
+    query: '',
+    page: 1,
+    perPage: 12,
+    showModal: false,
+    status: 'idle',
   };
 
   handleQuerySubmit = query => {
@@ -24,6 +24,7 @@ export class App extends React.Component {
   };
 
   render() {
+    const { pictures, error, status } = this.state;
     return (
       <>
         <Searchbar handleQuerySubmit={this.handleQuerySubmit} />
@@ -32,7 +33,7 @@ export class App extends React.Component {
         <Loader />
         <Button />
         <Modal /> */}
-        {/* <ToastContainer autoClose={3000} /> */}
+        <ToastContainer autoClose={3000} />
       </>
     );
   }
