@@ -1,7 +1,8 @@
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { fetchPicture, needValues } from 'services/api';
+// import { fetchPicture, needValues } from 'services/api';
+import fetchPicture from 'services/api';
 
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
@@ -21,41 +22,69 @@ export class App extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
-    const prevQuery = prevState.query;
-    const nextQuery = this.state.query;
     const prevPage = prevState.page;
-    const page = this.state.page;
+    const prevQuery = prevState.searchData;
+    const { query, page, pictures } = this.state;
 
-    if (prevQuery !== nextQuery || prevPage !== page) {
-      this.renderGallery();
+    if (prevPage !== page || prevQuery !== query) {
+      try {
+        this.setState({ isLoading: true });
+        const response = fetchPicture(query, page);
+
+        response.then(data => {
+          data.data.hits.length === 0
+            ? toast.error('Nothing found')
+            : data.data.hits.forEach(({ id, webformatURL, largeImageURL }) => {
+                !pictures.some(picture => picture.id === id) &&
+                  this.setState(({ pictures }) => ({
+                    pictures: [...pictures, { id, webformatURL, largeImageURL }],
+                  }));
+              });
+          this.setState({ isLoading: false });
+        });
+      } catch (error) {
+        this.setState({ error, isLoading: false });
+      } finally {
+      }
     }
   }
 
-  renderGallery = async () => {
-    const { query, page } = this.state;
-    this.setState({ isLoading: true });
+  // componentDidUpdate(prevProps, prevState) {
+  //   const prevQuery = prevState.query;
+  //   const nextQuery = this.state.query;
+  //   const prevPage = prevState.page;
+  //   const page = this.state.page;
 
-    try {
-      const { hits, totalHits } = await fetchPicture(query, page);
+  //   if (prevQuery !== nextQuery || prevPage !== page) {
+  //     this.renderGallery();
+  //   }
+  // }
 
-      if (totalHits === 0) {
-        toast.warn(
-          'Sorry, there are no images matching your search query. Please try again.'
-        );
-      }
-      const newPicture = needValues(hits);
+  // renderGallery = async () => {
+  //   const { query, page } = this.state;
+  //   this.setState({ isLoading: true });
 
-      this.setState(({ pictures }) => ({
-        pictures: [...pictures, ...newPicture],
-        totalHits,
-      }));
-    } catch (error) {
-      this.setState({ error });
-      toast.error('Oops... Something went wrong');
-    } finally {
-      this.setState({ isLoading: false });
-    }
-  };
+  //   try {
+  //     const { hits, totalHits } = await fetchPicture(query, page);
+
+  //     if (totalHits === 0) {
+  //       toast.warn(
+  //         'Sorry, there are no images matching your search query. Please try again.'
+  //       );
+  //     }
+  //     const newPictures = needValues(hits);
+
+  //     this.setState(({ pictures }) => ({
+  //       pictures: [...pictures, ...newPictures],
+  //       totalHits,
+  //     }));
+  //   } catch (error) {
+  //     this.setState({ error });
+  //     toast.error('Oops... Something went wrong');
+  //   } finally {
+  //     this.setState({ isLoading: false });
+  //   }
+  // };
 
   onFormSubmit = query => {
     this.setState({ query, pictures: [], page: 1 });
