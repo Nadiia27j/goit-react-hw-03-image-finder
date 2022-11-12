@@ -27,12 +27,12 @@ export default class Modal extends React.Component {
   };
 
   render() {
-    const { largeImage, alt } = this.props;
+    const { largeImage } = this.props;
 
     return createPortal(
       <Overlay onClick={this.onBackDropClick}>
         <ModalWindow>
-          <img src={largeImage} alt={alt} />
+          <img src={largeImage}  />
         </ModalWindow>
       </Overlay>,
       modalRoot,

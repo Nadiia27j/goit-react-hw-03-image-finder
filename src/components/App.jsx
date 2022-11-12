@@ -60,6 +60,7 @@ export class App extends React.Component {
 
   onFormSubmit = query => {
     this.setState({ query, pictures: [], page: 1 });
+    
   };
 
   onLoadMore = () => {

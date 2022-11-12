@@ -3,7 +3,8 @@ import ImageGalleryItem from 'components/ImageGalleryItem';
 import { ImageGalleryList } from './ImageGallery.styled';
 
 export default function ImageGallery({ pictures, onOpenModal }) {
-  <ImageGalleryList>
+  return (
+    <ImageGalleryList>
     {pictures.map(({ id, webformatURL, largeImageURL }) => (
       <ImageGalleryItem
         key={id}
@@ -12,7 +13,8 @@ export default function ImageGallery({ pictures, onOpenModal }) {
         openModal={onOpenModal}
       />
     ))}
-  </ImageGalleryList>;
+    </ImageGalleryList>
+  );
 }
 
 ImageGallery.propTypes = {
