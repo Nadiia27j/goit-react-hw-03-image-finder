@@ -101,7 +101,8 @@ export class App extends React.Component {
         {showModal && (
           <Modal 
           onModalClick={this.toggleModal}
-          largeImage={largeImageURL} 
+          largeImage={largeImageURL}
+          alt={tags} 
           />
         )}
       </>
