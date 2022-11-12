@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import ImageGalleryItem from 'components/ImageGalleryItem';
-import { ImageGalleryList }from './ImageGallery.styled';
+import { ImageGalleryList } from './ImageGallery.styled';
 
 export default function ImageGallery({ pictures, onOpenModal }) {
   <ImageGalleryList>
     {pictures.map(({ id, webformatURL, largeImageURL }) => (
-      <ImageGalleryItem>
+      <ImageGalleryItem
         key={id}
         url={webformatURL}
         largeImageURL={largeImageURL}
         openModal={onOpenModal}
-      </ImageGalleryItem>
+      />
     ))}
   </ImageGalleryList>;
 }

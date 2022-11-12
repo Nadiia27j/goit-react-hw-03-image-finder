@@ -20,7 +20,6 @@ export default class Searchbar extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault();
-
     if (this.state.query.trim() === '') {
       toast.info('Please enter a value to search!');
       return;

@@ -1,8 +1,8 @@
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { fetchPicture, needValues } from 'services/api';
-import fetchPicture from 'services/api';
+import { fetchPicture, needValues } from 'services/api';
+
 
 import Searchbar from './Searchbar';
 import ImageGallery from './ImageGallery';
@@ -22,70 +22,41 @@ export class App extends React.Component {
   };
 
   componentDidUpdate(prevProps, prevState) {
+    const prevQuery = prevState.query;
+    const nextQuery = this.state.query;
     const prevPage = prevState.page;
-    const prevQuery = prevState.searchData;
-    const { query, page, pictures } = this.state;
+    const page = this.state.page;
 
-    if (prevPage !== page || prevQuery !== query) {
-      try {
-        this.setState({ isLoading: true });
-        const response = fetchPicture(query, page);
-
-        response.then(data => {
-          data.data.hits.length === 0
-            ? toast.error('Nothing found')
-            : data.data.hits.forEach(({ id, webformatURL, largeImageURL }) => {
-                !pictures.some(picture => picture.id === id) &&
-                
-                  this.setState(({ pictures }) => ({
-                    pictures: [...pictures, { id, webformatURL, largeImageURL }],
-                  }));
-              });
-          this.setState({ isLoading: false });
-        });
-      } catch (error) {
-        this.setState({ error, isLoading: false });
-      } finally {
-      }
+    if (prevQuery !== nextQuery || prevPage !== page) {
+      this.renderGallery();
     }
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   const prevQuery = prevState.query;
-  //   const nextQuery = this.state.query;
-  //   const prevPage = prevState.page;
-  //   const page = this.state.page;
+  renderGallery = async () => {
+    const { query, page } = this.state;
+    this.setState({ isLoading: true });
 
-  //   if (prevQuery !== nextQuery || prevPage !== page) {
-  //     this.renderGallery();
-  //   }
-  // }
+    try {
+      const { hits, totalHits } = await fetchPicture(query, page);
 
-  // renderGallery = async () => {
-  //   const { query, page } = this.state;
-  //   this.setState({ isLoading: true });
+      if (totalHits === 0) {
+        toast.warn(
+          'Sorry, there are no images matching your search query. Please try again.'
+        );
+      }
+      const newPictures = needValues(hits);
 
-  //   try {
-  //     const { hits, totalHits } = await fetchPicture(query, page);
-
-  //     if (totalHits === 0) {
-  //       toast.warn(
-  //         'Sorry, there are no images matching your search query. Please try again.'
-  //       );
-  //     }
-  //     const newPictures = needValues(hits);
-
-  //     this.setState(({ pictures }) => ({
-  //       pictures: [...pictures, ...newPictures],
-  //       totalHits,
-  //     }));
-  //   } catch (error) {
-  //     this.setState({ error });
-  //     toast.error('Oops... Something went wrong');
-  //   } finally {
-  //     this.setState({ isLoading: false });
-  //   }
-  // };
+      this.setState(({ pictures }) => ({
+        pictures: [...pictures, ...newPictures],
+        totalHits,
+      }));
+    } catch (error) {
+      this.setState({ error });
+      toast.error('Oops... Something went wrong');
+    } finally {
+      this.setState({ isLoading: false });
+    }
+  };
 
   onFormSubmit = query => {
     this.setState({ query, pictures: [], page: 1 });
@@ -97,7 +68,7 @@ export class App extends React.Component {
     }));
   };
 
-  openModal = largeImageURL => {
+  openModal = (largeImageURL) => {
     this.toggleModal();
     this.setState({
       largeImageURL,
@@ -119,6 +90,7 @@ export class App extends React.Component {
     return (
       <>
         <Searchbar onSubmit={this.onFormSubmit} />
+        <ToastContainer autoClose={3000} />
         <ImageGallery pictures={pictures} onOpenModal={this.openModal} />
         {isLoading && <Loader />}
 
@@ -126,10 +98,16 @@ export class App extends React.Component {
           <Button onClick={this.onLoadMore} />
         )}
         {showModal && (
-          <Modal onModalClick={this.toggleModal} largeImage={largeImageURL} ></Modal>
+          <Modal 
+          onModalClick={this.toggleModal}
+          largeImage={largeImageURL} 
+          />
         )}
-        <ToastContainer autoClose={3000} />
       </>
     );
   }
 }
+
+
+
+
