@@ -1,5 +1,6 @@
 import React from 'react';
 import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { fetchPicture, needValues } from 'services/api';
 
 import Searchbar from './Searchbar';
@@ -81,7 +82,7 @@ export class App extends React.Component {
 
   render() {
     const { pictures, largeImageURL, isLoading, showModal, totalHits } =
-      this.state;
+    this.state;
 
     const allPictures = pictures.length === totalHits;
 
@@ -95,7 +96,7 @@ export class App extends React.Component {
           <Button onClick={this.onLoadMore} />
         )}
         {showModal && (
-          <Modal onModalClick={this.toggleModal} largeImage={largeImageURL} />
+          <Modal onModalClick={this.toggleModal} largeImage={largeImageURL} ></Modal>
         )}
         <ToastContainer autoClose={3000} />
       </>

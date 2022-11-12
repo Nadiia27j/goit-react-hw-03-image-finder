@@ -1,11 +1,11 @@
 import React from 'react';
 import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import PropTypes from 'prop-types';
 import {
   SearchbarHeader,
-  SearchbarForm,
-  SearchbarBbutton,
-  SearchbarLabel,
+  SearchForm,
+  SearchFormButton,
   SearchFormInput,
 } from './Searchbar.styled';
 
@@ -15,7 +15,7 @@ export default class Searchbar extends React.Component {
   };
 
   handleChange = e => {
-    this.setState({ query: e.currentTarget.value.toLowerCase() });
+    this.setState({ query: e.currentTarget.value });
   };
 
   handleSubmit = e => {
@@ -36,22 +36,22 @@ export default class Searchbar extends React.Component {
 
     return (
       <SearchbarHeader>
-        <SearchbarForm onSubmit={this.handleSubmit}>
-          <SearchbarBbutton type="submit">
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
             <span>Search</span>
-          </SearchbarBbutton>
+          </SearchFormButton>
 
-          <SearchbarLabel>
+          <label>
             <SearchFormInput
+              onChange={this.handleChange}
+              value={query}
               type="text"
               autoComplete="off"
               autoFocus
               placeholder="Search images and photos"
-              value={query}
-              onChange={this.handleChange}
             />
-          </SearchbarLabel>
-        </SearchbarForm>
+          </label>
+        </SearchForm>
       </SearchbarHeader>
     );
   }
