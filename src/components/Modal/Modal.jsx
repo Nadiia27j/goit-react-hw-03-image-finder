@@ -41,7 +41,6 @@ export default class Modal extends React.Component {
 }
 
 Modal.propTypes = {
-  alt: PropTypes.string.isRequired,
   largeImage: PropTypes.string.isRequired,
   onModalClick: PropTypes.func.isRequired,
 };
