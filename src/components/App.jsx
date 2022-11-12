@@ -36,6 +36,7 @@ export class App extends React.Component {
             ? toast.error('Nothing found')
             : data.data.hits.forEach(({ id, webformatURL, largeImageURL }) => {
                 !pictures.some(picture => picture.id === id) &&
+                
                   this.setState(({ pictures }) => ({
                     pictures: [...pictures, { id, webformatURL, largeImageURL }],
                   }));
