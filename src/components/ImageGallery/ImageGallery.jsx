@@ -5,12 +5,13 @@ import { ImageGalleryList } from './ImageGallery.styled';
 export default function ImageGallery({ pictures, onOpenModal }) {
   return (
     <ImageGalleryList>
-    {pictures.map(({ id, webformatURL, largeImageURL }) => (
+    {pictures.map(({ id, webformatURL, largeImageURL, tags }) => (
       <ImageGalleryItem
         key={id}
         url={webformatURL}
         largeImageURL={largeImageURL}
         openModal={onOpenModal}
+        tag={tags}
       />
     ))}
     </ImageGalleryList>
@@ -23,6 +24,7 @@ ImageGallery.propTypes = {
       id: PropTypes.number.isRequired,
       webformatURL: PropTypes.string.isRequired,
       largeImageURL: PropTypes.string.isRequired,
+      tags: PropTypes.string.isRequired,
     })
   ).isRequired,
   onOpenModal: PropTypes.func.isRequired,

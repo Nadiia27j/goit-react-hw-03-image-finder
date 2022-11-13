@@ -19,6 +19,7 @@ export class App extends React.Component {
     isLoading: false,
     showModal: false,
     largeImageURL: '',
+    tags: '',
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -69,10 +70,11 @@ export class App extends React.Component {
     }));
   };
 
-  openModal = (largeImageURL) => {
+  openModal = (largeImageURL, tags) => {
     this.toggleModal();
     this.setState({
       largeImageURL,
+      tags,
     });
   };
 
@@ -83,7 +85,7 @@ export class App extends React.Component {
   };
 
   render() {
-    const { pictures, largeImageURL, isLoading, showModal, totalHits } =
+    const { pictures, largeImageURL, isLoading, showModal, totalHits, tags } =
     this.state;
 
     const allPictures = pictures.length === totalHits;

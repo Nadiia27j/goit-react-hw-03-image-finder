@@ -14,10 +14,11 @@ export const fetchPicture = async (query, page) => {
 }
 
 export function needValues(data) {
-  return data.map(({ id, largeImageURL, webformatURL }) => ({
+  return data.map(({ id, largeImageURL, webformatURL, tags }) => ({
     id,
     largeImageURL,
     webformatURL,
+    tags,
   }));
 }
 
