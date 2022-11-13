@@ -1,6 +1,7 @@
 import React from 'react';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { BiSearch } from 'react-icons/bi';
 import PropTypes from 'prop-types';
 import {
   SearchbarHeader,
@@ -37,7 +38,7 @@ export default class Searchbar extends React.Component {
       <SearchbarHeader>
         <SearchForm onSubmit={this.handleSubmit}>
           <SearchFormButton type="submit">
-            <span>Search</span>
+          <BiSearch style={{ width: 25, height: 25 }} />
           </SearchFormButton>
 
           <label>
