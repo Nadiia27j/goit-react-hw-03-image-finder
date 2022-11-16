@@ -94,7 +94,7 @@ export class App extends React.Component {
       <>
         <Searchbar onSubmit={this.onFormSubmit} />
         <ToastContainer autoClose={3000} />
-        <ImageGallery pictures={pictures} onOpenModal={this.openModal} />
+       {pictures && <ImageGallery pictures={pictures} onOpenModal={this.openModal} />}  
         {isLoading && <Loader />}
 
         {pictures.length !== 0 && !isLoading && !allPictures && (
