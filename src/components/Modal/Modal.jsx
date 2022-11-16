@@ -6,6 +6,13 @@ import { Overlay, ModalWindow } from './Modal.styled';
 const modalRoot = document.querySelector('#modal-root');
 
 export default class Modal extends React.Component {
+  static propTypes = {
+    alt: PropTypes.string.isRequired,
+    largeImage: PropTypes.string.isRequired,
+    onModalClick: PropTypes.func.isRequired,
+  }
+
+  
   componentDidMount() {
     window.addEventListener('keydown', this.onKeyDown);
   }
@@ -40,8 +47,4 @@ export default class Modal extends React.Component {
   }
 }
 
-Modal.propTypes = {
-  alt: PropTypes.string.isRequired,
-  largeImage: PropTypes.string.isRequired,
-  onModalClick: PropTypes.func.isRequired,
-};
+
