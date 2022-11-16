@@ -15,6 +15,10 @@ export default class Searchbar extends React.Component {
     query: '',
   };
 
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  }
+
   handleChange = e => {
     this.setState({ query: e.currentTarget.value });
   };
@@ -57,6 +61,4 @@ export default class Searchbar extends React.Component {
   }
 }
 
-Searchbar.propTypes = {
-  onSubmit: PropTypes.func,
-};
+
