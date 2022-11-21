@@ -1,93 +1,64 @@
 import React from 'react';
-// import { toast } from 'react-toastify';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { BiSearch } from 'react-icons/bi';
+import PropTypes from 'prop-types';
+import {
+  SearchbarHeader,
+  SearchForm,
+  SearchFormButton,
+  SearchFormInput,
+} from './Searchbar.styled';
 
 export default class Searchbar extends React.Component {
   state = {
     query: '',
   };
 
-  handleQueryChange = e => {
-    this.setState({ query: e.currentTarget.value.toLowerCase() });
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  }
+
+  handleChange = e => {
+    this.setState({ query: e.currentTarget.value });
   };
 
   handleSubmit = e => {
     e.preventDefault();
-
     if (this.state.query.trim() === '') {
-      alert('Please enter a request');
+      toast.info('Please enter a value to search!');
       return;
     }
 
-    this.props.handleQuerySubmit(this.state.query);
+    this.props.onSubmit(this.state.query);
 
     this.setState({ query: '' });
   };
 
   render() {
-    return (
-      <header>
-        <form onSubmit={this.handleSubmit}>
-          <button type="submit">
-            <span>Search</span>
-          </button>
+    const { query } = this.state;
 
-          <input
-            type="text"
-            autoComplete="off"
-            autoFocus
-            placeholder="Search images and photos"
-            value={this.state.query}
-            onChange={this.handleQueryChange}
-          />
-        </form>
-      </header>
+    return (
+      <SearchbarHeader>
+        <SearchForm onSubmit={this.handleSubmit}>
+          <SearchFormButton type="submit">
+          <BiSearch style={{ width: 25, height: 25 }} />
+          </SearchFormButton>
+
+          <label>
+            <SearchFormInput
+              onChange={this.handleChange}
+              value={query}
+              type="text"
+              autoComplete="off"
+              autoFocus
+              placeholder="Search images and photos"
+            />
+          </label>
+        </SearchForm>
+      </SearchbarHeader>
     );
   }
 }
 
-// import React from 'react';
-// import { toast } from 'react-toastify';
 
-// export default class Searchbar extends React.Component {
-//   state = {
-//     query: '',
-//   };
-
-//   handleQueryChange = e => {
-//     this.setState({ pictureName: e.currentTarget.value.toLowerCase() });
-//   };
-
-//   handleSubmit = e => {
-//     e.preventDefault();
-
-//     if (this.state.query.trim() === '') {
-//       toast.info('Please enter a request');
-//       return;
-//     }
-
-//     this.props.handleQuerySubmit(this.state.query);
-
-//     this.setState({ query: '' });
-//   };
-
-//   render() {
-//     return (
-//       <header>
-//         <form onSubmit={this.handleSubmit}>
-//           <button type="submit">
-//             <span>Search</span>
-//           </button>
-
-//           <input
-//             type="text"
-//             autoComplete="off"
-//             autoFocus
-//             placeholder="Search images and photos"
-//             value={this.state.query}
-//             onChange={this.handleQueryChange}
-//           />
-//         </form>
-//       </header>
-//     );
-//   }
-// }
